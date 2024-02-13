@@ -17,7 +17,7 @@ public class Vendor {
 	private String name;
 	@Column(unique = true,nullable = false)
 	private String email;
-	@Column(length = 8)
+	@Column(length = 16)
 	private String password;
 	private String address;
 	@Column(unique = true,nullable = false)

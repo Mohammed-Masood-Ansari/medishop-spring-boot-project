@@ -28,26 +28,22 @@ public class CustomerDaoImpl implements CustomerDao {
 
 	@Override
 	public List<Customer> getAllCustomerDao() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Customer getCustomerByEmailDao(String customerEmail) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Customer updateCustomerByEmailDao(Customer customer) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean deleteCustomerByIdDao(int customerId) {
-		// TODO Auto-generated method stub
-		return false;
+	public Customer deleteCustomerByIdDao(int customerId) {
+		return null;
 	}
 
 }
