@@ -4,18 +4,21 @@ import java.util.List;
 
 import com.jsp.medishop.dto.Customer;
 
+/**
+ * @author Atul
+ */
 public interface CustomerDao {
 
 	public Customer saveCustomerDao(Customer customer);
 
-	public Customer getCustomerByIdDao(int customerId);
+	public Customer getCustomerByIdDao(int id);
 
-	public List<Customer> getAllCustomerDao();
+	public Customer getCustomerByEmailDao(String email);
 
-	public Customer getCustomerByEmailDao(String customerEmail);
+	public List<Customer> getCustomersDao();
 
 	public Customer updateCustomerByEmailDao(Customer customer);
 
-	public Customer deleteCustomerByIdDao(int customerId);
+	public Customer deleteCustomerByEmailDao(String email);
 
 }

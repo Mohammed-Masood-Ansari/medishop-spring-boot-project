@@ -1,5 +1,9 @@
 package com.jsp.medishop.service;
 
+/**
+ * @author Atul
+ */
+
 import java.util.List;
 
 import com.jsp.medishop.dto.Customer;
@@ -9,14 +13,13 @@ public interface CustomerService {
 
 	public ResponseStructure<Customer> saveCustomerService(Customer customer);
 
-	public ResponseStructure<Customer> getCustomerByIdService(int customerId);
+	public ResponseStructure<Customer> getCustomerByIdService(int id);
 
-	public ResponseStructure<List<Customer>> getAllCustomerService();
+	public ResponseStructure<Customer> getCustomerByEmailService(String email);
 
-	public ResponseStructure<Customer> getCustomerByEmailService(String customerEmail);
+	public List<Customer> getCustomersService();
 
-	public ResponseStructure<Customer> updateCustomerByEmailService(Customer customer);
+	public ResponseStructure<List<Customer>> updateCustomerByEmailService(Customer customer);
 
-	public ResponseStructure<Customer> deleteCustomerByIdService(int customerId);
-
+	public ResponseStructure<Customer> deleteCustomerByEmailService(String email);
 }

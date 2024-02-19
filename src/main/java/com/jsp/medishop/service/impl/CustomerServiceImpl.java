@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.jsp.medishop.dao.impl.CustomerDaoImpl;
+import com.jsp.medishop.dao.CustomerDao;
 import com.jsp.medishop.dto.Customer;
 import com.jsp.medishop.response.ResponseStructure;
 import com.jsp.medishop.service.CustomerService;
 import com.jsp.medishop.verification.EmailPasswordVerification;
+
 
 /**
  * @author Mo Masood Ansari
@@ -20,72 +21,63 @@ import com.jsp.medishop.verification.EmailPasswordVerification;
 public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
-	private CustomerDaoImpl daoImpl;
-
-	@Autowired
-	private ResponseStructure<Customer> responseStructure;
-
-	@Autowired
-	private ResponseStructure<List<Customer>> responseStructure2;
-
+	private CustomerDao dao;
 	@Autowired
 	private EmailPasswordVerification verification;
+	@Autowired
+	private ResponseStructure<Customer> structure;
+	@Autowired
+	private ResponseStructure<List<Customer>> structure2;
 
-	/**
-	 * 
-	 */
 	@Override
 	public ResponseStructure<Customer> saveCustomerService(Customer customer) {
 		String email = verification.verifyEmail(customer.getEmail());
 		String password = verification.verifyPassword(customer.getPassword());
-		
-		if(email!=null) {
-			if(password!=null) {
-				Customer customer1=daoImpl.saveCustomerDao(customer);
-				responseStructure.setStatusMsg("Data----Stored----");
-				responseStructure.setStatusCode(HttpStatus.CREATED.value());
-				responseStructure.setData(customer1);
-			}else {
-				responseStructure.setStatusMsg("please check your password it should include 8 to 16 characters with Alphabet, number, special character");
-				responseStructure.setStatusCode(HttpStatus.NOT_ACCEPTABLE.value());
-				responseStructure.setData(null);
+		if (email != null) {
+			if (password != null) {
+				dao.saveCustomerDao(customer);
+				structure.setData(customer);
+				structure.setMsg("Data Inserted!!!!");
+				structure.setStatus(HttpStatus.CREATED.value());
+			} else {
+				structure.setData(customer);
+				structure.setMsg("Please check your password!!!!");
+				structure.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
 			}
-		}else {
-			responseStructure.setStatusMsg("please check your Email it should include alphabet,numbers,@ and .");
-			responseStructure.setStatusCode(HttpStatus.NOT_ACCEPTABLE.value());
-			responseStructure.setData(null);
+		} else {
+			structure.setData(customer);
+			structure.setMsg("Please check your email!!!!");
+			structure.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
 		}
-		
-		return responseStructure;
+		return structure;
 	}
 
 	@Override
-	public ResponseStructure<Customer> getCustomerByIdService(int customerId) {
+	public ResponseStructure<Customer> getCustomerByIdService(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ResponseStructure<List<Customer>> getAllCustomerService() {
+	public ResponseStructure<Customer> getCustomerByEmailService(String email) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ResponseStructure<Customer> getCustomerByEmailService(String customerEmail) {
+	public List<Customer> getCustomersService() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ResponseStructure<Customer> updateCustomerByEmailService(Customer customer) {
+	public ResponseStructure<List<Customer>> updateCustomerByEmailService(Customer customer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ResponseStructure<Customer> deleteCustomerByIdService(int customerId) {
-		// TODO Auto-generated method stub
+	public ResponseStructure<Customer> deleteCustomerByEmailService(String email) {
 		return null;
 	}
 

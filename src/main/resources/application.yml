@@ -8,11 +8,11 @@ spring:
     username: root
     password: root
   jpa:
+    database: MYSQL
+    hibernate:
+      ddl-auto: update
     show-sql: true
-    properties:
-      ddl-auto: create
-      hibernate:
-       dialect: org.hibernate.dialect.MySQL8Dialect
+    generate-ddl: true
       
     
     

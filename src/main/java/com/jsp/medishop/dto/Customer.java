@@ -9,24 +9,27 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import lombok.Data;
 
+/**
+ * @author Atul
+ */
 @Entity
 @Data
 public class Customer {
 
 	@Id
 	private int id;
-	private LocalDate dob;
 	private String name;
-	@Column(unique = true,nullable = false)
+	private LocalDate dob;
+	@Column(unique = true, nullable = false)
 	private String email;
-	@Column(length = 16)
+	@Column(length = 8)
 	private String password;
 	private String address;
-	@Column(unique = true,nullable = false)
 	private long phone;
-	@Column(unique = true,nullable = false,length = 12)
-	private long adharnumber;
-	
+	@Column(unique = true, nullable = true, length = 12)
+	private long adhar;
+
 	@ManyToMany(mappedBy = "customers")
 	private List<Vendor> vendors;
+
 }

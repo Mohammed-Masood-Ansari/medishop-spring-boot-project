@@ -8,6 +8,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import lombok.Data;
 
+
+/**
+ * @author Mo Masood Ansari
+ *
+ */
 @Entity
 @Data
 public class Vendor {
@@ -15,17 +20,19 @@ public class Vendor {
 	@Id
 	private int id;
 	private String name;
-	@Column(unique = true,nullable = false)
 	private String email;
-	@Column(length = 16)
+	private long phone;
+	@Column(unique = true,nullable = true , length = 12)
+	private long adhar;
 	private String password;
 	private String address;
-	@Column(unique = true,nullable = false)
-	private long phone;
-	@Column(unique = true,nullable = false,length = 12)
-	private long adharnumber;
-	
+	@Column(name = "vendor_status")
+	private String vendorStatus="inactive";
+
 	@ManyToMany
 	private List<Customer> customers;
 	
+	@ManyToMany
+	private List<Medicine> medicines;
+
 }

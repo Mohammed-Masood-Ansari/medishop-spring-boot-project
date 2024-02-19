@@ -1,6 +1,5 @@
 package com.jsp.medishop.verification;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Component;
@@ -12,7 +11,7 @@ public class EmailPasswordVerification {
 
 		boolean alphabet = Pattern.compile("[a-zA-Z]").matcher(email).find();
 		boolean number = Pattern.compile("[0-9]").matcher(email).find();
-		boolean special = Pattern.compile("[@.]").matcher(email).find();
+		boolean special = Pattern.compile("[@,.]").matcher(email).find();
 
 		if ((alphabet && special && number)) {
 

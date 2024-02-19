@@ -4,10 +4,16 @@ import org.springframework.stereotype.Component;
 
 import lombok.Data;
 
+/**
+ * @author Atul
+ * @param <T>
+ */
 @Component
 @Data
 public class ResponseStructure<T> {
-	private int statusCode;
-	private String statusMsg;
+
 	private T data;
+	private String msg;
+	private int status;
+
 }
