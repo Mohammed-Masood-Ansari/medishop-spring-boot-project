@@ -23,5 +23,7 @@ public interface VendorService {
 	public ResponseStructure<List<Vendor>> updateVendorByEmailService(Vendor vendor);
 
 	public ResponseStructure<Vendor> deleteVendorByEmailService(String email);
+	
+	public ResponseStructure<Vendor> loginVendorByEmailAndPasswordService(String email,String password);
 
 }

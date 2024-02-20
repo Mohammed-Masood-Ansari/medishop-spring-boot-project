@@ -12,14 +12,18 @@ import com.jsp.medishop.response.ResponseStructure;
 import com.jsp.medishop.service.VendorService;
 import com.jsp.medishop.verification.EmailPasswordVerification;
 
+import jakarta.servlet.http.HttpSession;
+
 
 /**
  * @author Mo Masood Ansari
  *
  */
 @Service
-public class VendorImpl implements VendorService {
+public class VendorServiceImpl implements VendorService {
 
+	@Autowired
+	private HttpSession httpSession;
 	@Autowired
 	private VendorDao dao;
 	@Autowired
@@ -81,6 +85,30 @@ public class VendorImpl implements VendorService {
 	public ResponseStructure<Vendor> deleteVendorByEmailService(String email) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public ResponseStructure<Vendor> loginVendorByEmailAndPasswordService(String email, String password) {
+		
+		
+		Vendor vendor=dao.getVendorByEmailDao(email);
+		
+		if(vendor!=null) {
+			
+			if(vendor.getPassword().equals(password)) {
+				httpSession.setAttribute("vendorEmail", email);
+				structure.setStatus(HttpStatus.OK.value());
+				structure.setMsg("vendor-----login----successfully");
+				vendor.setPassword("***********");
+				structure.setData(vendor);
+			}else {
+				
+			}
+		}else {
+			
+		}
+		
+		return structure;
 	}
 
 }
