@@ -10,8 +10,13 @@ import com.jsp.medishop.dto.Medicine;
 import com.jsp.medishop.response.ResponseStructure;
 import com.jsp.medishop.service.MedicineService;
 
+import jakarta.servlet.http.HttpSession;
+
 public class MedicineServiceImpl implements MedicineService{
 
+	@Autowired
+	private HttpSession httpSession;
+	
 	@Autowired
 	private MedicineDao dao;
 	
@@ -23,16 +28,23 @@ public class MedicineServiceImpl implements MedicineService{
 	
 	@Override
 	public ResponseStructure<Medicine> saveMedicineService(Medicine medicine) {
-		 Medicine medicine2=dao.saveMedicineDao(medicine);
-		 if(medicine2!=null) {
-			 responseStructure.setStatus(HttpStatus.ACCEPTED.value());
-			 responseStructure.setMsg("Data stored");
-			 responseStructure.setData(medicine2);
-		 }else {
+		
+		if(httpSession.getAttribute("vendorEmail")!=null) {
+			 Medicine medicine2=dao.saveMedicineDao(medicine);
+			 if(medicine2!=null) {
+				 responseStructure.setStatus(HttpStatus.ACCEPTED.value());
+				 responseStructure.setMsg("medicine addedd");
+				 responseStructure.setData(medicine2);
+			 }else {
+				 responseStructure.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
+				 responseStructure.setMsg("Data is not stored check your code");
+				 responseStructure.setData(null);
+			 }
+		}else {
 			 responseStructure.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
-			 responseStructure.setMsg("Data is not stored check your code");
+			 responseStructure.setMsg("please login with vendor and then add medicine....");
 			 responseStructure.setData(null);
-		 }
+		}
 		 return responseStructure;
 	}
 

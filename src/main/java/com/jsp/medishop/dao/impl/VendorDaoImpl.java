@@ -1,6 +1,7 @@
 package com.jsp.medishop.dao.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -27,7 +28,12 @@ class VendorDaoImpl implements VendorDao {
 
 	@Override
 	public Vendor getVendorByIdDao(int id) {
-		return vendorRepository.findById(id).get();
+		Optional<Vendor> optional=vendorRepository.findById(id);
+		if(optional.isPresent()) {
+			return optional.get();
+		}else {
+			return null;
+		}
 	}
 
 	@Override
@@ -57,5 +63,17 @@ class VendorDaoImpl implements VendorDao {
 			return null;
 		}
 		return vendor;
+	}
+
+	@Override
+	public Vendor vendorVerifyByIdDao(int id) {
+		
+		Vendor vendor=getVendorByIdDao(id);
+		
+		if(vendor!=null) {
+			vendor.setVendorStatus("active");
+			return vendorRepository.save(vendor);
+		}
+		return null;
 	}
 }
