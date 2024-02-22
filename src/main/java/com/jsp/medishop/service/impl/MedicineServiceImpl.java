@@ -1,19 +1,30 @@
 package com.jsp.medishop.service.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
 import com.jsp.medishop.dao.MedicineDao;
+import com.jsp.medishop.dao.VendorDao;
 import com.jsp.medishop.dto.Medicine;
+import com.jsp.medishop.dto.Vendor;
 import com.jsp.medishop.response.ResponseStructure;
 import com.jsp.medishop.service.MedicineService;
+import com.jsp.medishop.service.VendorService;
 
 import jakarta.servlet.http.HttpSession;
 
+@Service
 public class MedicineServiceImpl implements MedicineService{
 
+	
+	@Autowired
+	private VendorDao vendorDao;
+	
 	@Autowired
 	private HttpSession httpSession;
 	
@@ -29,7 +40,12 @@ public class MedicineServiceImpl implements MedicineService{
 	@Override
 	public ResponseStructure<Medicine> saveMedicineService(Medicine medicine) {
 		
-		if(httpSession.getAttribute("vendorEmail")!=null) {
+		String email =(String) httpSession.getAttribute("vendorEmail");
+		
+		if(email!=null) {
+			 Vendor vendor=vendorDao.getVendorByEmailDao(email);
+			 System.out.println(vendor.getEmail());
+			 medicine.setVendors(new ArrayList<Vendor>(Arrays.asList(vendor)));
 			 Medicine medicine2=dao.saveMedicineDao(medicine);
 			 if(medicine2!=null) {
 				 responseStructure.setStatus(HttpStatus.ACCEPTED.value());

@@ -65,8 +65,20 @@ public class VendorServiceImpl implements VendorService {
 
 	@Override
 	public ResponseStructure<Vendor> getVendorByEmailService(String email) {
-		// TODO Auto-generated method stub
-		return null;
+	
+		Vendor vendor=dao.getVendorByEmailDao(email);
+		
+		if(vendor!=null) {
+			structure.setData(vendor);
+			structure.setMsg("vendor found");
+			structure.setStatus(HttpStatus.FOUND.value());
+		}else {
+		
+			structure.setData(vendor);
+			structure.setMsg("vendor not found");
+			structure.setStatus(HttpStatus.NOT_FOUND.value());
+		}
+		return structure;
 	}
 
 	@Override
