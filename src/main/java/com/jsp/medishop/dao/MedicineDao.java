@@ -9,4 +9,8 @@ public interface MedicineDao {
 	public Medicine saveMedicineDao(Medicine medicine);
 	
 	public List<Medicine> getAllMedicineDao();
+	
+	
+	public boolean verifyMedicineStatusByAdminDao(Medicine medicine);
+		
 }

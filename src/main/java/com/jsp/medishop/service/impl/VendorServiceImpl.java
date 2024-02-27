@@ -114,7 +114,6 @@ public class VendorServiceImpl implements VendorService {
 			} else {
 				structure.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
 				structure.setMsg("password is wrong...or you are not verified vendor please contact with admin");
-				vendor.setPassword(password);
 				structure.setData(vendor);
 			}
 		} else {
@@ -145,7 +144,9 @@ public class VendorServiceImpl implements VendorService {
 	@Override
 	public ResponseEntity<String> vendorVerifyByIdService(int id) {
 		
-		if(httpSession.getAttribute("adminEmail")!=null){
+		String adminEmail = (String) httpSession.getAttribute("adminEmail");
+		
+		if(adminEmail!=null){
 			
 			dao.vendorVerifyByIdDao(id);
 			

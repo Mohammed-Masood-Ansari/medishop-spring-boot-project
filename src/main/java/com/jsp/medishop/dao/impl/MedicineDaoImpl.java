@@ -14,7 +14,7 @@ public class MedicineDaoImpl implements MedicineDao {
 
 	@Autowired
 	private MedicineRepository medicineRepository;
-	
+
 	@Override
 	public Medicine saveMedicineDao(Medicine medicine) {
 		return medicineRepository.save(medicine);
@@ -23,6 +23,11 @@ public class MedicineDaoImpl implements MedicineDao {
 	@Override
 	public List<Medicine> getAllMedicineDao() {
 		return medicineRepository.findAll();
+	}
+
+	@Override
+	public boolean verifyMedicineStatusByAdminDao(Medicine medicine) {
+		return (medicineRepository.save(medicine) != null) ? true : false;
 	}
 
 }

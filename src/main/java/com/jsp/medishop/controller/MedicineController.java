@@ -21,7 +21,7 @@ public class MedicineController {
 	
 	@PostMapping(value = "/saveMedicine")
 	public ResponseStructure<Medicine> saveMedicineController(@RequestBody Medicine medicine) {
-		System.out.println(medicine.getId());
 		return medicineService.saveMedicineService(medicine);
 	}
+
 }

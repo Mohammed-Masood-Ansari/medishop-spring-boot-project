@@ -2,17 +2,25 @@ package com.jsp.medishop.dto;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * @author Mo Masood Ansari
  *.
  */
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Admin {
 
 	@Id
@@ -20,7 +28,8 @@ public class Admin {
 	private String email;
 	private String password;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "admin")
+	@JsonIgnore
 	private List<Vendor> vendors;
 
 }

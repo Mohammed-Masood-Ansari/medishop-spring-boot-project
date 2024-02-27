@@ -39,4 +39,7 @@ public class Medicine {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Vendor> vendors;
+	
+	@ManyToMany(mappedBy = "medicines")
+	private List<Customer> customers;
 }

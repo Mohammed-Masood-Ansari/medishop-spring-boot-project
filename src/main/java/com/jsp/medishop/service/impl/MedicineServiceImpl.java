@@ -6,12 +6,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.jsp.medishop.dao.MedicineDao;
 import com.jsp.medishop.dao.VendorDao;
+import com.jsp.medishop.dto.Admin;
 import com.jsp.medishop.dto.Medicine;
 import com.jsp.medishop.dto.Vendor;
+import com.jsp.medishop.repository.MedicineRepository;
 import com.jsp.medishop.response.ResponseStructure;
 import com.jsp.medishop.service.MedicineService;
 import com.jsp.medishop.service.VendorService;
@@ -29,7 +33,7 @@ public class MedicineServiceImpl implements MedicineService{
 	private HttpSession httpSession;
 	
 	@Autowired
-	private MedicineDao dao;
+	private MedicineDao medicineDao;
 	
 	@Autowired
 	private ResponseStructure<Medicine> responseStructure;
@@ -46,7 +50,7 @@ public class MedicineServiceImpl implements MedicineService{
 			 Vendor vendor=vendorDao.getVendorByEmailDao(email);
 			 System.out.println(vendor.getEmail());
 			 medicine.setVendors(new ArrayList<Vendor>(Arrays.asList(vendor)));
-			 Medicine medicine2=dao.saveMedicineDao(medicine);
+			 Medicine medicine2=medicineDao.saveMedicineDao(medicine);
 			 if(medicine2!=null) {
 				 responseStructure.setStatus(HttpStatus.ACCEPTED.value());
 				 responseStructure.setMsg("medicine addedd");
@@ -66,7 +70,7 @@ public class MedicineServiceImpl implements MedicineService{
 
 	@Override
 	public ResponseStructure<List<Medicine>> getAllMedicineService() {
-		     List<Medicine> medicines=dao.getAllMedicineDao();
+		     List<Medicine> medicines=medicineDao.getAllMedicineDao();
 		     if(!medicines.isEmpty()) {
 				 responseStructure2.setStatus(HttpStatus.OK.value());
 				 responseStructure2.setMsg("Data----Found----");
@@ -77,6 +81,37 @@ public class MedicineServiceImpl implements MedicineService{
 				 responseStructure2.setData(medicines);
 			 }
 			 return responseStructure2;
+	}
+
+	/**
+	 * 
+	 */
+	@Override
+	public ResponseEntity<String> verifyMedicineStatusByAdminService(int medicineId,int vendorId) {
+		
+		String adminEmail = (String) httpSession.getAttribute("adminEmail");
+		
+		if(adminEmail!=null) {
+			
+			Vendor vendor = vendorDao.getVendorByIdDao(vendorId);
+			
+			if(vendor!=null) {
+				List<Medicine> medicines= vendor.getMedicines();
+				
+				if(!medicines.isEmpty()) {
+					for (Medicine medicine : medicines) {
+						if(medicine.getId()==medicineId) {
+							medicine.setMedicine_status("active");
+							boolean b=medicineDao.verifyMedicineStatusByAdminDao(medicine);
+							
+							return (b)?new ResponseEntity<String>("medicine---verified",HttpStatusCode.valueOf(200)):new ResponseEntity<String>("not---verified",HttpStatusCode.valueOf(404));
+						}
+					}
+				}
+			}
+			
+		}
+		return new ResponseEntity<String>("please login as admin then verified",HttpStatusCode.valueOf(200));
 	}
 
 }

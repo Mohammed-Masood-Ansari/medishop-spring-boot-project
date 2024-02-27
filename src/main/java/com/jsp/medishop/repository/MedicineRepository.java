@@ -6,5 +6,5 @@ import com.jsp.medishop.dto.Medicine;
 
 public interface MedicineRepository extends JpaRepository<Medicine, Integer> {
 
-	
+	public Medicine findById(int medicineId);
 }
