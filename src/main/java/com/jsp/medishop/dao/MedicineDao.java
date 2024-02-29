@@ -12,5 +12,8 @@ public interface MedicineDao {
 	
 	
 	public boolean verifyMedicineStatusByAdminDao(Medicine medicine);
+	
+	
+	public List<Medicine> getAllMedicineByNameDao(String name);
 		
 }

@@ -11,4 +11,5 @@ public interface MedicineService {
 	public ResponseStructure<Medicine> saveMedicineService(Medicine medicine);
 	public ResponseStructure<List<Medicine>> getAllMedicineService();
 	public ResponseEntity<String>  verifyMedicineStatusByAdminService(int medicineId,int vendorId);
+	public ResponseStructure<List<Medicine>>  getAllMedicineByNameService(String name);
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.jsp.medishop.dao.CustomerDao;
@@ -12,6 +13,8 @@ import com.jsp.medishop.dto.Customer;
 import com.jsp.medishop.response.ResponseStructure;
 import com.jsp.medishop.service.CustomerService;
 import com.jsp.medishop.verification.EmailPasswordVerification;
+
+import jakarta.servlet.http.HttpSession;
 
 /**
  * @author Mo Masood Ansari
@@ -21,6 +24,9 @@ import com.jsp.medishop.verification.EmailPasswordVerification;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
+	@Autowired
+	private HttpSession httpSession;
+	
 	@Autowired
 	private CustomerDao dao;
 	@Autowired
@@ -91,6 +97,41 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public ResponseStructure<Customer> deleteCustomerByEmailService(String email) {
 		return null;
+	}
+
+	@Override
+	public ResponseStructure<Customer> loginCustomerByEmailPasswordService(String email, String password) {
+		
+		Customer customer=dao.getCustomerByEmailDao(email);
+		
+		if(customer!=null) {
+			
+			if(customer.getPassword().equals(password)) {
+				httpSession.setAttribute("customerEmail", email);
+				structure.setMsg("login successfully");
+				structure.setStatus(HttpStatus.ACCEPTED.value());
+				structure.setData(null);
+			}else {
+				structure.setMsg("Invalid Password");
+				structure.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
+				structure.setData(customer);
+			}
+		}else {
+			structure.setMsg("Invalid Email");
+			structure.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
+			customer.setPassword("*********");
+			structure.setData(customer);
+		}
+		return structure;
+	}
+
+	@Override
+	public ResponseEntity<String> logoutCustomer() {
+		
+		if(httpSession.getAttribute("customerEmail")!=null) {
+			httpSession.invalidate();
+		}
+		return new ResponseEntity<String>("Logout---Success", HttpStatus.OK);
 	}
 
 }

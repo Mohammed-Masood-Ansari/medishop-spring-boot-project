@@ -1,10 +1,12 @@
 package com.jsp.medishop.service;
 
 /**
- * @author Atul
+ * @author MO Masood Ansari
  */
 
 import java.util.List;
+
+import org.springframework.http.ResponseEntity;
 
 import com.jsp.medishop.dto.Customer;
 import com.jsp.medishop.response.ResponseStructure;
@@ -22,4 +24,8 @@ public interface CustomerService {
 	public ResponseStructure<List<Customer>> updateCustomerByEmailService(Customer customer);
 
 	public ResponseStructure<Customer> deleteCustomerByEmailService(String email);
+	
+	public ResponseStructure<Customer> loginCustomerByEmailPasswordService(String email,String password);
+	
+	public ResponseEntity<String> logoutCustomer();
 }

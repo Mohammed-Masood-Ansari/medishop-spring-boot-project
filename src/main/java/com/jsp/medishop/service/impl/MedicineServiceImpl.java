@@ -114,4 +114,30 @@ public class MedicineServiceImpl implements MedicineService{
 		return new ResponseEntity<String>("please login as admin then verified",HttpStatusCode.valueOf(200));
 	}
 
+	@Override
+	public ResponseStructure<List<Medicine>> getAllMedicineByNameService(String name) {
+		
+		String customerEmail = (String) httpSession.getAttribute("customerEmail");
+		String vendorEmail = (String)httpSession.getAttribute("vendorEmail");
+		String adminEmail = (String)httpSession.getAttribute("adminEmail");
+		
+		if((customerEmail!=null)||(vendorEmail!=null)||(adminEmail!=null)) {
+			List<Medicine> medicines = medicineDao.getAllMedicineByNameDao(name);
+			if(!medicines.isEmpty()) {
+				responseStructure2.setMsg("medicines are not available");
+				responseStructure2.setStatus(HttpStatus.FOUND.value());
+				responseStructure2.setData(medicines);
+			}else {
+				responseStructure2.setMsg("find below medicine details");
+				responseStructure2.setStatus(HttpStatus.NOT_FOUND.value());
+				responseStructure2.setData(medicines);
+			}
+		}else {
+			responseStructure2.setMsg("please login and then search");
+			responseStructure2.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
+			responseStructure2.setData(null);
+		}
+		return responseStructure2;
+	}
+
 }

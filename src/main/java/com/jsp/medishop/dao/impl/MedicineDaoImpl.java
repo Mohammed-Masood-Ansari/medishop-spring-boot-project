@@ -1,5 +1,6 @@
 package com.jsp.medishop.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,21 @@ public class MedicineDaoImpl implements MedicineDao {
 	@Override
 	public boolean verifyMedicineStatusByAdminDao(Medicine medicine) {
 		return (medicineRepository.save(medicine) != null) ? true : false;
+	}
+
+	@Override
+	public List<Medicine> getAllMedicineByNameDao(String name) {
+
+		List<Medicine> medicines = medicineRepository.findByName(name);
+
+		List<Medicine> medicines2 = new ArrayList<Medicine>();
+
+		for (Medicine medicine : medicines) {
+			if (medicine.getMedicine_status().equalsIgnoreCase("active")) {
+				medicines2.add(medicine);
+			}
+		}
+		return medicines2;
 	}
 
 }
