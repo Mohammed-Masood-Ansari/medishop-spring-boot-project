@@ -2,6 +2,7 @@ package com.jsp.medishop.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -44,6 +45,12 @@ public class MedicineDaoImpl implements MedicineDao {
 			}
 		}
 		return medicines2;
+	}
+
+	@Override
+	public Medicine getMedicineByIdDao(int medicineId) {
+		
+		return medicineRepository.findById(medicineId);
 	}
 
 }

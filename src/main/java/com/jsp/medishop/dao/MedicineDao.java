@@ -15,5 +15,8 @@ public interface MedicineDao {
 	
 	
 	public List<Medicine> getAllMedicineByNameDao(String name);
+	
+	
+	public Medicine getMedicineByIdDao(int medicineId);
 		
 }
