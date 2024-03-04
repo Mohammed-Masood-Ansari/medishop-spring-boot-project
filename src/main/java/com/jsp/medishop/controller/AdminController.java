@@ -28,6 +28,7 @@ public class AdminController {
 	@Autowired
 	private MedicineService medicineService;
 	
+	
 	@GetMapping("/loginAdmin")
 	public ResponseStructure<Admin> loginAdminByEmailAndPasswordController(@RequestBody Admin admin) {
 		return adminService.loginAdminByEmailAndPasswordService(admin);
